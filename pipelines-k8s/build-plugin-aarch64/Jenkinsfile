@@ -42,6 +42,7 @@ pipeline {
       steps{
         container('centos7'){
           sh """
+          set +e
           yum install -y wget
           python3 -m venv ${WORKSPACE}/${PLUGIN_PATH}/env_centos7
           ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install pip==19.3.1 wheel tox
