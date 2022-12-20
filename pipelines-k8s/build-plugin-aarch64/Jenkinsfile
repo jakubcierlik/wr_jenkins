@@ -13,11 +13,10 @@ def aarch64PodTemplate = """
               limits:
                 cpu: 1
                 memory: 2.5Gi
-          imagePullSecrets:
-            - name: dockerhub
+          # imagePullSecrets:
+          #   - name: dockerhub
           nodeSelector:
             kubernetes.io/arch: arm64
-            kubernetes.io/os: linux
       """.stripIndent().trim()
 
 pipeline {
