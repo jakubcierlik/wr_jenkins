@@ -4,8 +4,8 @@ def aarch64PodTemplate = """
         spec:
           containers:
           - name: centos7
-            # image: centos:7
-            image: system.registry.ssre.wrstudio.cloud/test-images/wrstudio-content-installer:1.1.5
+            image: centos:7
+            # image: system.registry.ssre.wrstudio.cloud/test-images/wrstudio-content-installer:1.1.5
             command:
             - cat
             tty: true
@@ -15,8 +15,9 @@ def aarch64PodTemplate = """
                 memory: 2.5Gi
           imagePullSecrets:
             - name: dockerhub
-          # nodeSelector:
-          #   instance-type: spot-arm64
+          nodeSelector:
+            kubernetes.io/arch: arm64
+            kubernetes.io/os: linux
       """.stripIndent().trim()
 
 pipeline {
