@@ -22,6 +22,7 @@ def aarch64PodTemplate = """
 pipeline {
   parameters {
     string(name: 'PLUGIN_NAME', description: 'Name of a plugin to build')
+    string(name: 'PLUGIN_PATH', description: 'Path where the plugin project content is located')
   }
 
   agent {
