@@ -3,11 +3,6 @@ def aarch64PodTemplate = """
         kind: Pod
         spec:
           containers:
-          - name: awscli
-            image: device.registry.aws-eu-north-1.devstar.cloud/wrcp-misc/amazon/aws-cli:2.1.8
-            command:
-            - cat
-            tty: true
           - name: centos7
             image: centos:7
             command:
