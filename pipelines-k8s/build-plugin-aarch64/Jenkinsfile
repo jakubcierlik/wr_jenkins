@@ -1,0 +1,65 @@
+@Library('pipeline-shared-library') _
+
+def aarch64PodTemplate = """
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: awscli
+            image: device.registry.aws-eu-north-1.devstar.cloud/wrcp-misc/amazon/aws-cli:2.1.8
+            command:
+            - cat
+            tty: true
+          - name: centos7
+            image: centos:7
+            command:
+            - cat
+            tty: true
+            resources:
+              limits:
+                cpu: 1
+                memory: 2.5Gi
+          imagePullSecrets:
+            - name: dockerhub
+          nodeSelector:
+            instance-type: spot-arm64
+      """.stripIndent().trim()
+
+pipeline {
+  parameters {
+    string(name: 'PLUGIN_NAME', description: 'Name of a plugin to build')
+  }
+
+  agent {
+    kubernetes {
+      yaml "${aarch64PodTemplate}"
+    }
+  }
+
+  options {
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr:'10'))
+    timeout(time: 60, unit: 'MINUTES')
+    timestamps()
+  }
+
+  stages {
+    stage("Setup"){
+      steps{
+        container('centos7'){
+          sh """
+          yum install -y wget
+          python3 -m venv ${WORKSPACE}/${PLUGIN_PATH}/env_centos7
+          ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install pip==19.3.1 wheel tox
+          ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install https://github.com/cloudify-cosmo/wagon/archive/refs/heads/master.zip
+          uname -a
+          uname -r -v -p
+          cat /etc/issue
+          cat /etc/redhat-release
+          arch
+          """
+        }
+      }
+    }
+  }
+}
