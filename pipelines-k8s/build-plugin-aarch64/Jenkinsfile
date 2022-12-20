@@ -1,5 +1,3 @@
-@Library('pipeline-shared-library') _
-
 def aarch64PodTemplate = """
         apiVersion: v1
         kind: Pod
