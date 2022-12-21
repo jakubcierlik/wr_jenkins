@@ -14,8 +14,8 @@ def aarch64PodTemplate = """
                 memory: 2.5Gi
           imagePullSecrets:
             - name: dockerhub
-          nodeSelector:
-            kubernetes.io/arch: arm64
+          # nodeSelector:
+          #   kubernetes.io/arch: arm64
           tolerations:
           - key: "spotInstance"
             operator: "Equal"
