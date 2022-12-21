@@ -4,8 +4,9 @@ def aarch64PodTemplate = """
         spec:
           containers:
           - name: centos7
-            image: arm64v8/centos
-            imagePullPolicy: Always
+            # image: arm64v8/centos
+            image: arm64v8/nginx
+            imagePullPolicy: IfNotPresent
             # command:
             # - cat
             # tty: true
@@ -13,8 +14,8 @@ def aarch64PodTemplate = """
               limits:
                 cpu: 0.6
                 memory: 2.5Gi
-          # imagePullSecrets:
-          #   - name: dockerhub
+          imagePullSecrets:
+            - name: dockerhub
           # nodeSelector:
           #   kubernetes.io/arch: arm64
           tolerations:
