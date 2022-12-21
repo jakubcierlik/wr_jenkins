@@ -4,7 +4,7 @@ def aarch64PodTemplate = """
         spec:
           containers:
           - name: centos7
-            image: centos:7
+            image: arm64v8/centos:7
             command:
             - cat
             tty: true
