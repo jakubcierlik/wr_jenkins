@@ -5,7 +5,8 @@ def aarch64PodTemplate = """
           containers:
           - name: centos7
             image: arm64v8/centos:7
-            # command:
+            command:
+            - /usr/sbin/init
             # - cat
             # - /bin/bash
             tty: true
