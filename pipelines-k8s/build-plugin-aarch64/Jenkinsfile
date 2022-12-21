@@ -5,20 +5,17 @@ def aarch64PodTemplate = """
           containers:
           - name: centos7
             image: centos:7
-            # image: system.registry.ssre.wrstudio.cloud/test-images/wrstudio-content-installer:1.1.5
-            # image: arm64v8/nginx
             command:
             - cat
             tty: true
             resources:
               limits:
-                cpu: 0.6
+                cpu: 1
                 memory: 2.5Gi
           imagePullSecrets:
             - name: dockerhub
-          # nodeSelector:
-          #   kubernetes.io/arch: arm64
-          #   kubernetes.io/os: linux
+          nodeSelector:
+            kubernetes.io/arch: arm64
           tolerations:
           - key: "spotInstance"
             operator: "Equal"
@@ -54,7 +51,7 @@ pipeline {
         container('centos7'){
           sh """
           set +e
-          yum install -y wget
+          # yum install -y wget
           python3 -m venv ${WORKSPACE}/${PLUGIN_PATH}/env_centos7
           ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install pip==19.3.1 wheel tox
           ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install https://github.com/cloudify-cosmo/wagon/archive/refs/heads/master.zip
