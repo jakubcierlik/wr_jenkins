@@ -4,9 +4,8 @@ def aarch64PodTemplate = """
         spec:
           containers:
           - name: centos7
-            # image: arm64v8/centos
-            image: arm64v8/nginx
-            imagePullPolicy: IfNotPresent
+            image: arm64v8/centos:7
+            imagePullPolicy: Always
             # command:
             # - cat
             # tty: true
@@ -58,7 +57,6 @@ pipeline {
           ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install pip==19.3.1 wheel tox
           ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install https://github.com/cloudify-cosmo/wagon/archive/refs/heads/master.zip
           uname -a
-          uname -r -v -p
           cat /etc/issue
           cat /etc/redhat-release
           arch
