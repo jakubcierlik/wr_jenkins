@@ -4,20 +4,18 @@ def aarch64PodTemplate = """
         spec:
           containers:
           - name: centos7
-            image: arm64v8/centos:7
+            image: arm64v8/centos
             command:
-            - /usr/sbin/init
-            # - cat
-            # - /bin/bash
+            - cat
             tty: true
             resources:
               limits:
-                cpu: 1
+                cpu: 0.6
                 memory: 2.5Gi
           imagePullSecrets:
             - name: dockerhub
-          # nodeSelector:
-          #   kubernetes.io/arch: arm64
+          nodeSelector:
+            kubernetes.io/arch: arm64
           tolerations:
           - key: "spotInstance"
             operator: "Equal"
