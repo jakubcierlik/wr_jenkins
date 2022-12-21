@@ -3,29 +3,29 @@ def aarch64PodTemplate = """
         kind: Pod
         spec:
           containers:
-          - name: centos7
-            image: arm64v8/centos:7
-            imagePullPolicy: Always
-            command:
-            - cat
-            tty: true
-            resources:
-              limits:
-                cpu: 0.6
-                memory: 2.5Gi
+            - name: centos7
+              image: arm64v8/centos:7
+              imagePullPolicy: Always
+              command:
+                - cat
+              tty: true
+              resources:
+                limits:
+                  cpu: 0.6
+                  memory: 2.5Gi
           imagePullSecrets:
             - name: dockerhub
           # nodeSelector:
           #   kubernetes.io/arch: arm64
           tolerations:
-          - key: "spotInstance"
-            operator: "Equal"
-            value: "true"
-            effect: "NoSchedule"
-          - key: "cpu"
-            operator: "Equal"
-            value: "arm"
-            effect: "NoSchedule"
+            - key: "spotInstance"
+              operator: "Equal"
+              value: "true"
+              effect: "NoSchedule"
+            - key: "cpu"
+              operator: "Equal"
+              value: "arm"
+              effect: "NoSchedule"
       """.stripIndent().trim()
 
 pipeline {
@@ -52,6 +52,7 @@ pipeline {
         container('centos7'){
           sh """
           set +e
+          echo DEBUG: Pod spec used:\n${aarch64PodTemplate}
           # yum install -y wget
           python3 -m venv ${WORKSPACE}/${PLUGIN_PATH}/env_centos7
           ${WORKSPACE}/${PLUGIN_PATH}/env_centos7/bin/pip install pip==19.3.1 wheel tox
