@@ -6,7 +6,8 @@ def aarch64PodTemplate = """
           - name: centos7
             image: arm64v8/centos:7
             command:
-            - cat
+            # - cat
+            - /bin/bash
             tty: true
             resources:
               limits:
